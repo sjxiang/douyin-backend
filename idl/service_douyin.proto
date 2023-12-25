@@ -1,0 +1,146 @@
+syntax = "proto3";
+
+package idl;
+option go_package = "github.com/sjxiang/douyin-backend/pb";  
+
+
+import "google/api/annotations.proto";
+import "rpc_comment_list.proto";
+import "rpc_comment_action.proto";
+import "rpc_favorite_action.proto";
+import "rpc_favorite_list.proto";
+import "rpc_feed_info.proto";
+import "rpc_relation_action.proto";
+import "rpc_relation_follow_list.proto";
+import "rpc_relation_follower_list.proto";
+import "rpc_relation_friend_list.proto";
+import "rpc_user_info.proto";
+import "rpc_user_login.proto";
+import "rpc_user_register.proto";
+import "rpc_publish_action.proto";
+import "rpc_publish_list.proto";
+import "rpc_message_action.proto";
+import "rpc_message_chat.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+    info: {
+        title: "douyin backend";
+        version: "1.0";
+        contact: {
+            name: "crud tech project";
+            url: "https://github.com/sjxiang/douyin-backend";
+            email: "1535484943@qq.com";
+        };
+    };
+};
+
+service Douyin {
+    rpc CommentAction(DouyinCommentActionRequest) returns(DouyinCommentActionResponse) {
+        option (google.api.http) = {
+            post: "/douyin/comment/action"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "略";
+            summary: "评论操作";
+        };
+    }
+  
+    rpc CommentList(DouyinCommentListRequest) returns(DouyinCommentListResponse) {
+        option (google.api.http) = {
+            get: "/douyin/comment/list"
+        };
+    }
+
+    rpc FavoriteAction(DouyinFavoriteActionRequest) returns(DouyinFavoriteActionResponse) {
+        option (google.api.http) = {
+            post: "/douyin/favorite/action"
+            body: "*"
+        };
+    }
+  
+    rpc FavoriteList(DouyinFavoriteListRequest) returns(DouyinFavoriteListResponse) {
+        option (google.api.http) = {
+            get: "/douyin/favorite/list"
+        };
+    }
+
+    rpc Feed(DouyinFeedRequest) returns(DouyinFeedResponse) {
+        option (google.api.http) = {
+            get: "/douyin/feed"
+        };
+    }
+
+    rpc RelationAction(DouyinRelationActionRequest) returns(DouyinRelationActionResponse) {
+        option (google.api.http) = {
+            post: "/douyin/relation/action"
+            body: "*"
+        };
+    }
+    
+    rpc RelationFollowList(DouyinRelationFollowListRequest) returns(DouyinRelationFollowListResponse) {
+        option (google.api.http) = {
+            get: "/douyin/relation/follow/list"
+        };
+    }
+
+    rpc RelationFollowerList(DouyinRelationFollowerListRequest) returns(DouyinRelationFollowerListResponse) {
+        option (google.api.http) = {
+            get: "/douyin/relation/follower/list"
+        };
+    }
+
+    rpc RelationFriendList(DouyinRelationFriendListRequest) returns(DouyinRelationFriendListResponse) {
+        option (google.api.http) = {
+            get: "/douyin/relation/friend/list"
+        };
+    }
+
+    rpc UserInfo(DouyinUserRequest) returns(DouyinUserResponse) {
+        option (google.api.http) = {
+            get: "/douyin/user"
+        };
+    }
+    
+    rpc UserRegister(DouyinUserRegisterRequest) returns(DouyinUserRegisterResponse) {
+        option (google.api.http) = {
+            post: "/douyin/user/register"
+            body: "*"
+        };
+    }
+    
+    rpc UserLogin(DouyinUserLoginRequest) returns(DouyinUserLoginResponse) {
+        option (google.api.http) = {
+            post: "/douyin/user/login"
+            body: "*"
+        };
+    }
+
+    rpc PublishAction(DouyinPublishActionRequest) returns(DouyinPublishActionResponse) {
+        option (google.api.http) = {
+            post: "/douyin/publish/action"
+            body: "*"
+        };
+    }
+    
+    rpc PublishList(DouyinPublishListRequest) returns(DouyinPublishListResponse) {
+        option (google.api.http) = {
+            get: "/douyin/publish/list"
+        };
+    }
+
+    rpc MessageChat(DouyinMessageChatRequest) returns(DouyinMessageChatResponse) {
+        option (google.api.http) = {
+            get: "/douyin/message/chat"
+        };
+    }
+  
+    rpc MessageAction(DouyinMessageActionRequest) returns(DouyinMessageActionResponse) {
+        option (google.api.http) = {
+            post: "/douyin/message/action"
+            body: "*"
+        };
+    }
+}

@@ -1,0 +1,1247 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "douyin backend",
+    "version": "1.0",
+    "contact": {
+      "name": "crud tech project",
+      "url": "https://github.com/sjxiang/douyin-backend",
+      "email": "1535484943@qq.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "Douyin"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/douyin/comment/action": {
+      "post": {
+        "summary": "评论操作",
+        "description": "略",
+        "operationId": "Douyin_CommentAction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinCommentActionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/idlDouyinCommentActionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/comment/list": {
+      "get": {
+        "operationId": "Douyin_CommentList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinCommentListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "token",
+            "description": "用户鉴权 token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "videoId",
+            "description": "视频 id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/favorite/action": {
+      "post": {
+        "operationId": "Douyin_FavoriteAction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinFavoriteActionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/idlDouyinFavoriteActionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/favorite/list": {
+      "get": {
+        "operationId": "Douyin_FavoriteList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinFavoriteListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "description": "用户id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "description": "用户鉴权 token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/feed": {
+      "get": {
+        "operationId": "Douyin_Feed",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinFeedResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "latestTime",
+            "description": "可选参数，限制返回视频的最新投稿时间戳，精确到秒，不填表示当前时间",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "description": "可选参数，登录用户设置",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/message/action": {
+      "post": {
+        "operationId": "Douyin_MessageAction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinMessageActionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/idlDouyinMessageActionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/message/chat": {
+      "get": {
+        "operationId": "Douyin_MessageChat",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinMessageChatResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "token",
+            "description": "用户鉴权token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "toUserId",
+            "description": "对方用户id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "preMsgTime",
+            "description": "上次最新消息的时间（新增字段-apk更新中）",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/publish/action": {
+      "post": {
+        "operationId": "Douyin_PublishAction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinPublishActionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/idlDouyinPublishActionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/publish/list": {
+      "get": {
+        "operationId": "Douyin_PublishList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinPublishListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "description": "用户id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "description": "用户鉴权 token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/relation/action": {
+      "post": {
+        "operationId": "Douyin_RelationAction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinRelationActionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/idlDouyinRelationActionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/relation/follow/list": {
+      "get": {
+        "operationId": "Douyin_RelationFollowList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinRelationFollowListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "description": "用户id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "description": "用户鉴权token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/relation/follower/list": {
+      "get": {
+        "operationId": "Douyin_RelationFollowerList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinRelationFollowerListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/relation/friend/list": {
+      "get": {
+        "operationId": "Douyin_RelationFriendList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinRelationFriendListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/user": {
+      "get": {
+        "operationId": "Douyin_UserInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinUserResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "description": "用户id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "description": "用户鉴权 token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/user/login": {
+      "post": {
+        "operationId": "Douyin_UserLogin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinUserLoginResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/idlDouyinUserLoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/douyin/user/register": {
+      "post": {
+        "operationId": "Douyin_UserRegister",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/idlDouyinUserRegisterResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/idlDouyinUserRegisterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Douyin"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "idlComment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "视频评论 id"
+        },
+        "user": {
+          "$ref": "#/definitions/idlUser",
+          "title": "评论用户信息"
+        },
+        "content": {
+          "type": "string",
+          "title": "评论内容"
+        },
+        "createDate": {
+          "type": "string",
+          "title": "评论发布日期，格式 mm-dd"
+        }
+      },
+      "title": "dto"
+    },
+    "idlDouyinCommentActionRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "title": "用户鉴权 token"
+        },
+        "videoId": {
+          "type": "string",
+          "format": "int64",
+          "title": "视频 id"
+        },
+        "actionType": {
+          "type": "integer",
+          "format": "int32",
+          "title": "1-发布评论，2-删除评论"
+        },
+        "commentText": {
+          "type": "string",
+          "title": "用户填写的评论内容，在 action_type=1 的时候，使用"
+        },
+        "commentId": {
+          "type": "string",
+          "format": "int64",
+          "title": "要删除的评论 id，在 action_type=2 的时候，使用"
+        }
+      }
+    },
+    "idlDouyinCommentActionResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        },
+        "comment": {
+          "$ref": "#/definitions/idlComment",
+          "title": "评论成功返回评论内容，不需要重新拉取整个列表"
+        }
+      }
+    },
+    "idlDouyinCommentListResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态信息"
+        },
+        "commentList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/idlComment"
+          },
+          "title": "评论列表"
+        }
+      }
+    },
+    "idlDouyinFavoriteActionRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "title": "用户鉴权 token"
+        },
+        "videoId": {
+          "type": "string",
+          "format": "int64",
+          "title": "视频 id"
+        },
+        "actionType": {
+          "type": "integer",
+          "format": "int32",
+          "title": "1-点赞，2-取消点赞"
+        }
+      }
+    },
+    "idlDouyinFavoriteActionResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        }
+      }
+    },
+    "idlDouyinFavoriteListResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        },
+        "videoList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/idlVideo"
+          },
+          "title": "用户点赞视频列表"
+        }
+      }
+    },
+    "idlDouyinFeedResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        },
+        "videoList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/idlVideo"
+          },
+          "title": "视频列表"
+        },
+        "nextTime": {
+          "type": "string",
+          "format": "int64",
+          "title": "本次返回的视频中，发布最早的时间，作为下次请求时的latest_time"
+        }
+      }
+    },
+    "idlDouyinMessageActionRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "title": "用户鉴权token"
+        },
+        "toUserId": {
+          "type": "string",
+          "format": "int64",
+          "title": "对方用户id"
+        },
+        "actionType": {
+          "type": "integer",
+          "format": "int32",
+          "title": "1-发送消息"
+        },
+        "content": {
+          "type": "string",
+          "title": "消息内容"
+        }
+      }
+    },
+    "idlDouyinMessageActionResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        }
+      }
+    },
+    "idlDouyinMessageChatResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        },
+        "messageList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/idlMessage"
+          },
+          "title": "消息列表"
+        }
+      }
+    },
+    "idlDouyinPublishActionRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "title": "用户鉴权token"
+        },
+        "data": {
+          "type": "string",
+          "format": "byte",
+          "title": "视频数据"
+        },
+        "title": {
+          "type": "string",
+          "title": "视频标题"
+        }
+      }
+    },
+    "idlDouyinPublishActionResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        }
+      }
+    },
+    "idlDouyinPublishListResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        },
+        "videoList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/idlVideo"
+          },
+          "title": "用户发布的视频列表"
+        }
+      }
+    },
+    "idlDouyinRelationActionRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "title": "用户鉴权token"
+        },
+        "toUserId": {
+          "type": "string",
+          "format": "int64",
+          "title": "对方用户id"
+        },
+        "actionType": {
+          "type": "integer",
+          "format": "int32",
+          "title": "1-关注，2-取消关注"
+        }
+      }
+    },
+    "idlDouyinRelationActionResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        }
+      }
+    },
+    "idlDouyinRelationFollowListResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        },
+        "userList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/idlUser"
+          },
+          "title": "用户信息列表"
+        }
+      }
+    },
+    "idlDouyinRelationFollowerListResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "statusMsg": {
+          "type": "string"
+        },
+        "userList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/idlUser"
+          }
+        }
+      }
+    },
+    "idlDouyinRelationFriendListResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "statusMsg": {
+          "type": "string"
+        },
+        "userList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/idlFriendUser"
+          },
+          "title": "用户列表"
+        }
+      }
+    },
+    "idlDouyinUserLoginRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "title": "Login Username"
+        },
+        "password": {
+          "type": "string",
+          "title": "login password"
+        }
+      }
+    },
+    "idlDouyinUserLoginResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        },
+        "userId": {
+          "type": "string",
+          "format": "int64",
+          "title": "用户id"
+        },
+        "token": {
+          "type": "string",
+          "title": "用户鉴权 token"
+        }
+      }
+    },
+    "idlDouyinUserRegisterRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "title": "注册用户名，最长32个字符"
+        },
+        "password": {
+          "type": "string",
+          "title": "密码，最长32个字符"
+        }
+      }
+    },
+    "idlDouyinUserRegisterResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        },
+        "userId": {
+          "type": "string",
+          "format": "int64",
+          "title": "用户id"
+        },
+        "token": {
+          "type": "string",
+          "title": "用户鉴权token"
+        }
+      }
+    },
+    "idlDouyinUserResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        },
+        "user": {
+          "$ref": "#/definitions/idlUser",
+          "title": "用户信息"
+        }
+      }
+    },
+    "idlFriendUser": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/idlUser"
+        },
+        "message": {
+          "type": "string",
+          "title": "和该好友的最新聊天消息"
+        },
+        "msgType": {
+          "type": "string",
+          "format": "int64",
+          "title": "message消息的类型，0 =\u003e 当前请求用户接收的消息， 1 =\u003e 当前请求用户发送的消息"
+        }
+      }
+    },
+    "idlMessage": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "消息id"
+        },
+        "toUserId": {
+          "type": "string",
+          "format": "int64",
+          "title": "该消息接收者的id"
+        },
+        "fromUserId": {
+          "type": "string",
+          "format": "int64",
+          "title": "该消息发送者的id"
+        },
+        "content": {
+          "type": "string",
+          "title": "消息内容"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "int64",
+          "title": "消息创建时间"
+        }
+      }
+    },
+    "idlUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "用户 id"
+        },
+        "name": {
+          "type": "string",
+          "title": "用户名称"
+        },
+        "followCount": {
+          "type": "string",
+          "format": "int64",
+          "title": "关注总数"
+        },
+        "followerCount": {
+          "type": "string",
+          "format": "int64",
+          "title": "粉丝总数"
+        },
+        "isFollow": {
+          "type": "boolean",
+          "title": "true-已关注，false-未关注"
+        },
+        "avatar": {
+          "type": "string",
+          "title": "用户头像"
+        },
+        "backgroundImage": {
+          "type": "string",
+          "title": "用户个人页，顶部大图"
+        },
+        "signature": {
+          "type": "string",
+          "title": "个人简介、用户签名"
+        },
+        "totalFavorited": {
+          "type": "string",
+          "format": "int64",
+          "title": "获赞数量"
+        },
+        "workCount": {
+          "type": "string",
+          "format": "int64",
+          "title": "作品数量"
+        },
+        "favoriteCount": {
+          "type": "string",
+          "format": "int64",
+          "title": "点赞数量"
+        }
+      }
+    },
+    "idlVideo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "视频唯一标识"
+        },
+        "author": {
+          "$ref": "#/definitions/idlUser",
+          "title": "视频作者信息"
+        },
+        "playUrl": {
+          "type": "string",
+          "title": "视频播放地址"
+        },
+        "coverUrl": {
+          "type": "string",
+          "title": "视频封面地址"
+        },
+        "favoriteCount": {
+          "type": "string",
+          "format": "int64",
+          "title": "视频的点赞总数"
+        },
+        "commentCount": {
+          "type": "string",
+          "format": "int64",
+          "title": "视频的评论总数"
+        },
+        "isFavorite": {
+          "type": "boolean",
+          "title": "true-已点赞，false-未点赞"
+        },
+        "title": {
+          "type": "string",
+          "title": "视频标题"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

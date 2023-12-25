@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package idl;
+option go_package = "github.com/sjxiang/douyin-backend/pb"; 
+
+
+
+message DouyinUserLoginRequest {
+    string username = 1; // Login Username
+    string password = 2; // login password
+}
+  
+message DouyinUserLoginResponse {
+    int32 status_code = 1;  // 状态码，0-成功，其他值-失败
+    string status_msg = 2;  // 返回状态描述
+    int64 user_id = 3;      // 用户id
+    string token = 4;       // 用户鉴权 token
+}

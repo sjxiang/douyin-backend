@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package idl;
+option go_package = "github.com/sjxiang/douyin-backend/pb"; 
+
+
+import "message.proto";
+
+message DouyinMessageChatRequest {
+    string token = 1;        // 用户鉴权token
+    int64 to_user_id = 2;    // 对方用户id
+    int64 pre_msg_time = 3;  // 上次最新消息的时间（新增字段-apk更新中）
+}
+  
+message DouyinMessageChatResponse {
+    int32 status_code = 1;              // 状态码，0-成功，其他值-失败
+    string status_msg = 2;              // 返回状态描述
+    repeated Message message_list = 3;  // 消息列表
+}

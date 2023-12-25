@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package idl;
+option go_package = "github.com/sjxiang/douyin-backend/pb"; 
+
+
+message DouyinFavoriteActionRequest {
+    string token = 1;        // 用户鉴权 token
+    int64 video_id = 2;      // 视频 id
+    int32 action_type = 3;   // 1-点赞，2-取消点赞 
+}
+
+message DouyinFavoriteActionResponse {
+    int32 status_code = 1;  // 状态码，0-成功，其他值-失败
+    string status_msg = 2;  // 返回状态描述
+}

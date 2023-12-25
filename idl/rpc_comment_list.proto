@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package idl;
+option go_package = "github.com/sjxiang/douyin-backend/pb"; 
+
+import "comment.proto";
+
+
+message DouyinCommentListRequest {
+    string token = 1;    // 用户鉴权 token
+    int64 video_id = 2;  // 视频 id
+  }
+  
+message DouyinCommentListResponse {
+    int32 status_code = 1;              // 状态码，0-成功，其他值-失败
+    string status_msg = 2;              // 返回状态信息
+    repeated Comment comment_list = 3;  // 评论列表
+}
+  
