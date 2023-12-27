@@ -10,4 +10,3 @@ proto:
 	idl/*.proto
 
 .PHONY: proto
-# --openapiv2_out=doc/swagger --openapiv2_opt=allow_merge=true,merge_file_name=douyin_backend \

@@ -22,20 +22,29 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DouyinClient interface {
-	CommentAction(ctx context.Context, in *DouyinCommentActionRequest, opts ...grpc.CallOption) (*DouyinCommentActionResponse, error)
-	CommentList(ctx context.Context, in *DouyinCommentListRequest, opts ...grpc.CallOption) (*DouyinCommentListResponse, error)
+	// 基础接口，也是核心 core
+	//
+	// 抖音最基础的功能实现，支持所有用户刷抖音视频，同时允许用户注册账户，发布自己拍摄的视频，发布后能够被其他人刷到。
+	UserRegister(ctx context.Context, in *DouyinUserRegisterRequest, opts ...grpc.CallOption) (*DouyinUserRegisterResponse, error)
+	UserLogin(ctx context.Context, in *DouyinUserLoginRequest, opts ...grpc.CallOption) (*DouyinUserLoginResponse, error)
+	UserInfo(ctx context.Context, in *DouyinUserInfoRequest, opts ...grpc.CallOption) (*DouyinUserInfoResponse, error)
+	PublishAction(ctx context.Context, in *DouyinPublishActionRequest, opts ...grpc.CallOption) (*DouyinPublishActionResponse, error)
+	PublishList(ctx context.Context, in *DouyinPublishListRequest, opts ...grpc.CallOption) (*DouyinPublishListResponse, error)
+	Feed(ctx context.Context, in *DouyinFeedRequest, opts ...grpc.CallOption) (*DouyinFeedResponse, error)
 	FavoriteAction(ctx context.Context, in *DouyinFavoriteActionRequest, opts ...grpc.CallOption) (*DouyinFavoriteActionResponse, error)
 	FavoriteList(ctx context.Context, in *DouyinFavoriteListRequest, opts ...grpc.CallOption) (*DouyinFavoriteListResponse, error)
-	Feed(ctx context.Context, in *DouyinFeedRequest, opts ...grpc.CallOption) (*DouyinFeedResponse, error)
+	CommentAction(ctx context.Context, in *DouyinCommentActionRequest, opts ...grpc.CallOption) (*DouyinCommentActionResponse, error)
+	CommentList(ctx context.Context, in *DouyinCommentListRequest, opts ...grpc.CallOption) (*DouyinCommentListResponse, error)
+	// 社交接口，extra.second
+	//
+	// 实现用户之间的关注关系维护，登录用户能够关注或取关其他用户，同时自己能够看到自己关注过的所有用户列表，以及所有关注自己的用户列表。
 	RelationAction(ctx context.Context, in *DouyinRelationActionRequest, opts ...grpc.CallOption) (*DouyinRelationActionResponse, error)
 	RelationFollowList(ctx context.Context, in *DouyinRelationFollowListRequest, opts ...grpc.CallOption) (*DouyinRelationFollowListResponse, error)
 	RelationFollowerList(ctx context.Context, in *DouyinRelationFollowerListRequest, opts ...grpc.CallOption) (*DouyinRelationFollowerListResponse, error)
 	RelationFriendList(ctx context.Context, in *DouyinRelationFriendListRequest, opts ...grpc.CallOption) (*DouyinRelationFriendListResponse, error)
-	UserInfo(ctx context.Context, in *DouyinUserRequest, opts ...grpc.CallOption) (*DouyinUserResponse, error)
-	UserRegister(ctx context.Context, in *DouyinUserRegisterRequest, opts ...grpc.CallOption) (*DouyinUserRegisterResponse, error)
-	UserLogin(ctx context.Context, in *DouyinUserLoginRequest, opts ...grpc.CallOption) (*DouyinUserLoginResponse, error)
-	PublishAction(ctx context.Context, in *DouyinPublishActionRequest, opts ...grpc.CallOption) (*DouyinPublishActionResponse, error)
-	PublishList(ctx context.Context, in *DouyinPublishListRequest, opts ...grpc.CallOption) (*DouyinPublishListResponse, error)
+	// 聊天，extra.third
+	//
+	// 客户端通过定时轮询服务端接口，查询消息记录
 	MessageChat(ctx context.Context, in *DouyinMessageChatRequest, opts ...grpc.CallOption) (*DouyinMessageChatResponse, error)
 	MessageAction(ctx context.Context, in *DouyinMessageActionRequest, opts ...grpc.CallOption) (*DouyinMessageActionResponse, error)
 }
@@ -48,18 +57,54 @@ func NewDouyinClient(cc grpc.ClientConnInterface) DouyinClient {
 	return &douyinClient{cc}
 }
 
-func (c *douyinClient) CommentAction(ctx context.Context, in *DouyinCommentActionRequest, opts ...grpc.CallOption) (*DouyinCommentActionResponse, error) {
-	out := new(DouyinCommentActionResponse)
-	err := c.cc.Invoke(ctx, "/idl.Douyin/CommentAction", in, out, opts...)
+func (c *douyinClient) UserRegister(ctx context.Context, in *DouyinUserRegisterRequest, opts ...grpc.CallOption) (*DouyinUserRegisterResponse, error) {
+	out := new(DouyinUserRegisterResponse)
+	err := c.cc.Invoke(ctx, "/idl.Douyin/UserRegister", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *douyinClient) CommentList(ctx context.Context, in *DouyinCommentListRequest, opts ...grpc.CallOption) (*DouyinCommentListResponse, error) {
-	out := new(DouyinCommentListResponse)
-	err := c.cc.Invoke(ctx, "/idl.Douyin/CommentList", in, out, opts...)
+func (c *douyinClient) UserLogin(ctx context.Context, in *DouyinUserLoginRequest, opts ...grpc.CallOption) (*DouyinUserLoginResponse, error) {
+	out := new(DouyinUserLoginResponse)
+	err := c.cc.Invoke(ctx, "/idl.Douyin/UserLogin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *douyinClient) UserInfo(ctx context.Context, in *DouyinUserInfoRequest, opts ...grpc.CallOption) (*DouyinUserInfoResponse, error) {
+	out := new(DouyinUserInfoResponse)
+	err := c.cc.Invoke(ctx, "/idl.Douyin/UserInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *douyinClient) PublishAction(ctx context.Context, in *DouyinPublishActionRequest, opts ...grpc.CallOption) (*DouyinPublishActionResponse, error) {
+	out := new(DouyinPublishActionResponse)
+	err := c.cc.Invoke(ctx, "/idl.Douyin/PublishAction", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *douyinClient) PublishList(ctx context.Context, in *DouyinPublishListRequest, opts ...grpc.CallOption) (*DouyinPublishListResponse, error) {
+	out := new(DouyinPublishListResponse)
+	err := c.cc.Invoke(ctx, "/idl.Douyin/PublishList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *douyinClient) Feed(ctx context.Context, in *DouyinFeedRequest, opts ...grpc.CallOption) (*DouyinFeedResponse, error) {
+	out := new(DouyinFeedResponse)
+	err := c.cc.Invoke(ctx, "/idl.Douyin/Feed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -84,9 +129,18 @@ func (c *douyinClient) FavoriteList(ctx context.Context, in *DouyinFavoriteListR
 	return out, nil
 }
 
-func (c *douyinClient) Feed(ctx context.Context, in *DouyinFeedRequest, opts ...grpc.CallOption) (*DouyinFeedResponse, error) {
-	out := new(DouyinFeedResponse)
-	err := c.cc.Invoke(ctx, "/idl.Douyin/Feed", in, out, opts...)
+func (c *douyinClient) CommentAction(ctx context.Context, in *DouyinCommentActionRequest, opts ...grpc.CallOption) (*DouyinCommentActionResponse, error) {
+	out := new(DouyinCommentActionResponse)
+	err := c.cc.Invoke(ctx, "/idl.Douyin/CommentAction", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *douyinClient) CommentList(ctx context.Context, in *DouyinCommentListRequest, opts ...grpc.CallOption) (*DouyinCommentListResponse, error) {
+	out := new(DouyinCommentListResponse)
+	err := c.cc.Invoke(ctx, "/idl.Douyin/CommentList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -129,51 +183,6 @@ func (c *douyinClient) RelationFriendList(ctx context.Context, in *DouyinRelatio
 	return out, nil
 }
 
-func (c *douyinClient) UserInfo(ctx context.Context, in *DouyinUserRequest, opts ...grpc.CallOption) (*DouyinUserResponse, error) {
-	out := new(DouyinUserResponse)
-	err := c.cc.Invoke(ctx, "/idl.Douyin/UserInfo", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *douyinClient) UserRegister(ctx context.Context, in *DouyinUserRegisterRequest, opts ...grpc.CallOption) (*DouyinUserRegisterResponse, error) {
-	out := new(DouyinUserRegisterResponse)
-	err := c.cc.Invoke(ctx, "/idl.Douyin/UserRegister", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *douyinClient) UserLogin(ctx context.Context, in *DouyinUserLoginRequest, opts ...grpc.CallOption) (*DouyinUserLoginResponse, error) {
-	out := new(DouyinUserLoginResponse)
-	err := c.cc.Invoke(ctx, "/idl.Douyin/UserLogin", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *douyinClient) PublishAction(ctx context.Context, in *DouyinPublishActionRequest, opts ...grpc.CallOption) (*DouyinPublishActionResponse, error) {
-	out := new(DouyinPublishActionResponse)
-	err := c.cc.Invoke(ctx, "/idl.Douyin/PublishAction", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *douyinClient) PublishList(ctx context.Context, in *DouyinPublishListRequest, opts ...grpc.CallOption) (*DouyinPublishListResponse, error) {
-	out := new(DouyinPublishListResponse)
-	err := c.cc.Invoke(ctx, "/idl.Douyin/PublishList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *douyinClient) MessageChat(ctx context.Context, in *DouyinMessageChatRequest, opts ...grpc.CallOption) (*DouyinMessageChatResponse, error) {
 	out := new(DouyinMessageChatResponse)
 	err := c.cc.Invoke(ctx, "/idl.Douyin/MessageChat", in, out, opts...)
@@ -196,20 +205,29 @@ func (c *douyinClient) MessageAction(ctx context.Context, in *DouyinMessageActio
 // All implementations must embed UnimplementedDouyinServer
 // for forward compatibility
 type DouyinServer interface {
-	CommentAction(context.Context, *DouyinCommentActionRequest) (*DouyinCommentActionResponse, error)
-	CommentList(context.Context, *DouyinCommentListRequest) (*DouyinCommentListResponse, error)
+	// 基础接口，也是核心 core
+	//
+	// 抖音最基础的功能实现，支持所有用户刷抖音视频，同时允许用户注册账户，发布自己拍摄的视频，发布后能够被其他人刷到。
+	UserRegister(context.Context, *DouyinUserRegisterRequest) (*DouyinUserRegisterResponse, error)
+	UserLogin(context.Context, *DouyinUserLoginRequest) (*DouyinUserLoginResponse, error)
+	UserInfo(context.Context, *DouyinUserInfoRequest) (*DouyinUserInfoResponse, error)
+	PublishAction(context.Context, *DouyinPublishActionRequest) (*DouyinPublishActionResponse, error)
+	PublishList(context.Context, *DouyinPublishListRequest) (*DouyinPublishListResponse, error)
+	Feed(context.Context, *DouyinFeedRequest) (*DouyinFeedResponse, error)
 	FavoriteAction(context.Context, *DouyinFavoriteActionRequest) (*DouyinFavoriteActionResponse, error)
 	FavoriteList(context.Context, *DouyinFavoriteListRequest) (*DouyinFavoriteListResponse, error)
-	Feed(context.Context, *DouyinFeedRequest) (*DouyinFeedResponse, error)
+	CommentAction(context.Context, *DouyinCommentActionRequest) (*DouyinCommentActionResponse, error)
+	CommentList(context.Context, *DouyinCommentListRequest) (*DouyinCommentListResponse, error)
+	// 社交接口，extra.second
+	//
+	// 实现用户之间的关注关系维护，登录用户能够关注或取关其他用户，同时自己能够看到自己关注过的所有用户列表，以及所有关注自己的用户列表。
 	RelationAction(context.Context, *DouyinRelationActionRequest) (*DouyinRelationActionResponse, error)
 	RelationFollowList(context.Context, *DouyinRelationFollowListRequest) (*DouyinRelationFollowListResponse, error)
 	RelationFollowerList(context.Context, *DouyinRelationFollowerListRequest) (*DouyinRelationFollowerListResponse, error)
 	RelationFriendList(context.Context, *DouyinRelationFriendListRequest) (*DouyinRelationFriendListResponse, error)
-	UserInfo(context.Context, *DouyinUserRequest) (*DouyinUserResponse, error)
-	UserRegister(context.Context, *DouyinUserRegisterRequest) (*DouyinUserRegisterResponse, error)
-	UserLogin(context.Context, *DouyinUserLoginRequest) (*DouyinUserLoginResponse, error)
-	PublishAction(context.Context, *DouyinPublishActionRequest) (*DouyinPublishActionResponse, error)
-	PublishList(context.Context, *DouyinPublishListRequest) (*DouyinPublishListResponse, error)
+	// 聊天，extra.third
+	//
+	// 客户端通过定时轮询服务端接口，查询消息记录
 	MessageChat(context.Context, *DouyinMessageChatRequest) (*DouyinMessageChatResponse, error)
 	MessageAction(context.Context, *DouyinMessageActionRequest) (*DouyinMessageActionResponse, error)
 	mustEmbedUnimplementedDouyinServer()
@@ -219,11 +237,23 @@ type DouyinServer interface {
 type UnimplementedDouyinServer struct {
 }
 
-func (UnimplementedDouyinServer) CommentAction(context.Context, *DouyinCommentActionRequest) (*DouyinCommentActionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CommentAction not implemented")
+func (UnimplementedDouyinServer) UserRegister(context.Context, *DouyinUserRegisterRequest) (*DouyinUserRegisterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserRegister not implemented")
 }
-func (UnimplementedDouyinServer) CommentList(context.Context, *DouyinCommentListRequest) (*DouyinCommentListResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CommentList not implemented")
+func (UnimplementedDouyinServer) UserLogin(context.Context, *DouyinUserLoginRequest) (*DouyinUserLoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserLogin not implemented")
+}
+func (UnimplementedDouyinServer) UserInfo(context.Context, *DouyinUserInfoRequest) (*DouyinUserInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserInfo not implemented")
+}
+func (UnimplementedDouyinServer) PublishAction(context.Context, *DouyinPublishActionRequest) (*DouyinPublishActionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PublishAction not implemented")
+}
+func (UnimplementedDouyinServer) PublishList(context.Context, *DouyinPublishListRequest) (*DouyinPublishListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PublishList not implemented")
+}
+func (UnimplementedDouyinServer) Feed(context.Context, *DouyinFeedRequest) (*DouyinFeedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Feed not implemented")
 }
 func (UnimplementedDouyinServer) FavoriteAction(context.Context, *DouyinFavoriteActionRequest) (*DouyinFavoriteActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FavoriteAction not implemented")
@@ -231,8 +261,11 @@ func (UnimplementedDouyinServer) FavoriteAction(context.Context, *DouyinFavorite
 func (UnimplementedDouyinServer) FavoriteList(context.Context, *DouyinFavoriteListRequest) (*DouyinFavoriteListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FavoriteList not implemented")
 }
-func (UnimplementedDouyinServer) Feed(context.Context, *DouyinFeedRequest) (*DouyinFeedResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Feed not implemented")
+func (UnimplementedDouyinServer) CommentAction(context.Context, *DouyinCommentActionRequest) (*DouyinCommentActionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CommentAction not implemented")
+}
+func (UnimplementedDouyinServer) CommentList(context.Context, *DouyinCommentListRequest) (*DouyinCommentListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CommentList not implemented")
 }
 func (UnimplementedDouyinServer) RelationAction(context.Context, *DouyinRelationActionRequest) (*DouyinRelationActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RelationAction not implemented")
@@ -245,21 +278,6 @@ func (UnimplementedDouyinServer) RelationFollowerList(context.Context, *DouyinRe
 }
 func (UnimplementedDouyinServer) RelationFriendList(context.Context, *DouyinRelationFriendListRequest) (*DouyinRelationFriendListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RelationFriendList not implemented")
-}
-func (UnimplementedDouyinServer) UserInfo(context.Context, *DouyinUserRequest) (*DouyinUserResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UserInfo not implemented")
-}
-func (UnimplementedDouyinServer) UserRegister(context.Context, *DouyinUserRegisterRequest) (*DouyinUserRegisterResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UserRegister not implemented")
-}
-func (UnimplementedDouyinServer) UserLogin(context.Context, *DouyinUserLoginRequest) (*DouyinUserLoginResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UserLogin not implemented")
-}
-func (UnimplementedDouyinServer) PublishAction(context.Context, *DouyinPublishActionRequest) (*DouyinPublishActionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PublishAction not implemented")
-}
-func (UnimplementedDouyinServer) PublishList(context.Context, *DouyinPublishListRequest) (*DouyinPublishListResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PublishList not implemented")
 }
 func (UnimplementedDouyinServer) MessageChat(context.Context, *DouyinMessageChatRequest) (*DouyinMessageChatResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MessageChat not implemented")
@@ -280,38 +298,110 @@ func RegisterDouyinServer(s grpc.ServiceRegistrar, srv DouyinServer) {
 	s.RegisterService(&Douyin_ServiceDesc, srv)
 }
 
-func _Douyin_CommentAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DouyinCommentActionRequest)
+func _Douyin_UserRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DouyinUserRegisterRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DouyinServer).CommentAction(ctx, in)
+		return srv.(DouyinServer).UserRegister(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/idl.Douyin/CommentAction",
+		FullMethod: "/idl.Douyin/UserRegister",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DouyinServer).CommentAction(ctx, req.(*DouyinCommentActionRequest))
+		return srv.(DouyinServer).UserRegister(ctx, req.(*DouyinUserRegisterRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Douyin_CommentList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DouyinCommentListRequest)
+func _Douyin_UserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DouyinUserLoginRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DouyinServer).CommentList(ctx, in)
+		return srv.(DouyinServer).UserLogin(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/idl.Douyin/CommentList",
+		FullMethod: "/idl.Douyin/UserLogin",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DouyinServer).CommentList(ctx, req.(*DouyinCommentListRequest))
+		return srv.(DouyinServer).UserLogin(ctx, req.(*DouyinUserLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Douyin_UserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DouyinUserInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DouyinServer).UserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/idl.Douyin/UserInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DouyinServer).UserInfo(ctx, req.(*DouyinUserInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Douyin_PublishAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DouyinPublishActionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DouyinServer).PublishAction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/idl.Douyin/PublishAction",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DouyinServer).PublishAction(ctx, req.(*DouyinPublishActionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Douyin_PublishList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DouyinPublishListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DouyinServer).PublishList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/idl.Douyin/PublishList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DouyinServer).PublishList(ctx, req.(*DouyinPublishListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Douyin_Feed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DouyinFeedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DouyinServer).Feed(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/idl.Douyin/Feed",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DouyinServer).Feed(ctx, req.(*DouyinFeedRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -352,20 +442,38 @@ func _Douyin_FavoriteList_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Douyin_Feed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DouyinFeedRequest)
+func _Douyin_CommentAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DouyinCommentActionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DouyinServer).Feed(ctx, in)
+		return srv.(DouyinServer).CommentAction(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/idl.Douyin/Feed",
+		FullMethod: "/idl.Douyin/CommentAction",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DouyinServer).Feed(ctx, req.(*DouyinFeedRequest))
+		return srv.(DouyinServer).CommentAction(ctx, req.(*DouyinCommentActionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Douyin_CommentList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DouyinCommentListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DouyinServer).CommentList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/idl.Douyin/CommentList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DouyinServer).CommentList(ctx, req.(*DouyinCommentListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -442,96 +550,6 @@ func _Douyin_RelationFriendList_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Douyin_UserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DouyinUserRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DouyinServer).UserInfo(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/idl.Douyin/UserInfo",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DouyinServer).UserInfo(ctx, req.(*DouyinUserRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Douyin_UserRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DouyinUserRegisterRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DouyinServer).UserRegister(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/idl.Douyin/UserRegister",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DouyinServer).UserRegister(ctx, req.(*DouyinUserRegisterRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Douyin_UserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DouyinUserLoginRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DouyinServer).UserLogin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/idl.Douyin/UserLogin",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DouyinServer).UserLogin(ctx, req.(*DouyinUserLoginRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Douyin_PublishAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DouyinPublishActionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DouyinServer).PublishAction(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/idl.Douyin/PublishAction",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DouyinServer).PublishAction(ctx, req.(*DouyinPublishActionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Douyin_PublishList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DouyinPublishListRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DouyinServer).PublishList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/idl.Douyin/PublishList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DouyinServer).PublishList(ctx, req.(*DouyinPublishListRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Douyin_MessageChat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DouyinMessageChatRequest)
 	if err := dec(in); err != nil {
@@ -576,12 +594,28 @@ var Douyin_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*DouyinServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CommentAction",
-			Handler:    _Douyin_CommentAction_Handler,
+			MethodName: "UserRegister",
+			Handler:    _Douyin_UserRegister_Handler,
 		},
 		{
-			MethodName: "CommentList",
-			Handler:    _Douyin_CommentList_Handler,
+			MethodName: "UserLogin",
+			Handler:    _Douyin_UserLogin_Handler,
+		},
+		{
+			MethodName: "UserInfo",
+			Handler:    _Douyin_UserInfo_Handler,
+		},
+		{
+			MethodName: "PublishAction",
+			Handler:    _Douyin_PublishAction_Handler,
+		},
+		{
+			MethodName: "PublishList",
+			Handler:    _Douyin_PublishList_Handler,
+		},
+		{
+			MethodName: "Feed",
+			Handler:    _Douyin_Feed_Handler,
 		},
 		{
 			MethodName: "FavoriteAction",
@@ -592,8 +626,12 @@ var Douyin_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Douyin_FavoriteList_Handler,
 		},
 		{
-			MethodName: "Feed",
-			Handler:    _Douyin_Feed_Handler,
+			MethodName: "CommentAction",
+			Handler:    _Douyin_CommentAction_Handler,
+		},
+		{
+			MethodName: "CommentList",
+			Handler:    _Douyin_CommentList_Handler,
 		},
 		{
 			MethodName: "RelationAction",
@@ -610,26 +648,6 @@ var Douyin_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RelationFriendList",
 			Handler:    _Douyin_RelationFriendList_Handler,
-		},
-		{
-			MethodName: "UserInfo",
-			Handler:    _Douyin_UserInfo_Handler,
-		},
-		{
-			MethodName: "UserRegister",
-			Handler:    _Douyin_UserRegister_Handler,
-		},
-		{
-			MethodName: "UserLogin",
-			Handler:    _Douyin_UserLogin_Handler,
-		},
-		{
-			MethodName: "PublishAction",
-			Handler:    _Douyin_PublishAction_Handler,
-		},
-		{
-			MethodName: "PublishList",
-			Handler:    _Douyin_PublishList_Handler,
 		},
 		{
 			MethodName: "MessageChat",

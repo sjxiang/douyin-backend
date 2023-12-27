@@ -6,12 +6,12 @@ option go_package = "github.com/sjxiang/douyin-backend/pb";
 import "user.proto";
 
 
-message DouyinUserRequest {
-    int64 user_id = 1;  // 用户id
+message DouyinUserInfoRequest {
+    int64 user_id = 1;  // 用户 id
     string token = 2;   // 用户鉴权 token
 }
   
-message DouyinUserResponse {
+message DouyinUserInfoResponse {
     int32 status_code = 1;  // 状态码，0-成功，其他值-失败
     string status_msg = 2;  // 返回状态描述
     User user = 3;          // 用户信息

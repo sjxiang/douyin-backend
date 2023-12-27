@@ -24,7 +24,7 @@
     "/douyin/comment/action": {
       "post": {
         "summary": "评论操作",
-        "description": "略",
+        "description": "登录用户对视频进行评论",
         "operationId": "Douyin_CommentAction",
         "responses": {
           "200": {
@@ -57,6 +57,8 @@
     },
     "/douyin/comment/list": {
       "get": {
+        "summary": "视频评论列表",
+        "description": "查看视频的所有评论，按发布时间倒序",
         "operationId": "Douyin_CommentList",
         "responses": {
           "200": {
@@ -96,6 +98,8 @@
     },
     "/douyin/favorite/action": {
       "post": {
+        "summary": "赞操作",
+        "description": "登录用户对视频的点赞和取消点赞操作",
         "operationId": "Douyin_FavoriteAction",
         "responses": {
           "200": {
@@ -128,6 +132,8 @@
     },
     "/douyin/favorite/list": {
       "get": {
+        "summary": "喜欢操作",
+        "description": "登录用户的所有点赞视频",
         "operationId": "Douyin_FavoriteList",
         "responses": {
           "200": {
@@ -167,6 +173,8 @@
     },
     "/douyin/feed": {
       "get": {
+        "summary": "视频流",
+        "description": "不限制登录状态，返回按投稿时间倒序的视频列表，视频数由服务端控制，单次最多 30 个。",
         "operationId": "Douyin_Feed",
         "responses": {
           "200": {
@@ -206,6 +214,8 @@
     },
     "/douyin/message/action": {
       "post": {
+        "summary": "消息操作",
+        "description": "登录用户对消息的相关操作，目前只支持消息发送",
         "operationId": "Douyin_MessageAction",
         "responses": {
           "200": {
@@ -238,6 +248,8 @@
     },
     "/douyin/message/chat": {
       "get": {
+        "summary": "聊天记录",
+        "description": "当前登录用户和其他指定用户的聊天消息记录",
         "operationId": "Douyin_MessageChat",
         "responses": {
           "200": {
@@ -285,6 +297,8 @@
     },
     "/douyin/publish/action": {
       "post": {
+        "summary": "视频投稿",
+        "description": "登录用户选择视频上传",
         "operationId": "Douyin_PublishAction",
         "responses": {
           "200": {
@@ -317,6 +331,8 @@
     },
     "/douyin/publish/list": {
       "get": {
+        "summary": "发布列表",
+        "description": "登录用户的视频发布列表，直接列出用户所有投稿过的视频",
         "operationId": "Douyin_PublishList",
         "responses": {
           "200": {
@@ -356,6 +372,8 @@
     },
     "/douyin/relation/action": {
       "post": {
+        "summary": "关系操作",
+        "description": "登录用户对其他用户进行关注或者取消关注",
         "operationId": "Douyin_RelationAction",
         "responses": {
           "200": {
@@ -388,6 +406,8 @@
     },
     "/douyin/relation/follow/list": {
       "get": {
+        "summary": "用户关注列表",
+        "description": "登录用户关注的所有用户列表",
         "operationId": "Douyin_RelationFollowList",
         "responses": {
           "200": {
@@ -427,6 +447,8 @@
     },
     "/douyin/relation/follower/list": {
       "get": {
+        "summary": "用户粉丝列表",
+        "description": "所有关注登录用户的粉丝列表",
         "operationId": "Douyin_RelationFollowerList",
         "responses": {
           "200": {
@@ -464,6 +486,8 @@
     },
     "/douyin/relation/friend/list": {
       "get": {
+        "summary": "用户好友列表",
+        "description": "互相关注的用户列表",
         "operationId": "Douyin_RelationFriendList",
         "responses": {
           "200": {
@@ -501,12 +525,14 @@
     },
     "/douyin/user": {
       "get": {
+        "summary": "用户信息",
+        "description": "获取登录用户 id、昵称，如果实现社交部分的功能，还会返回关注数、粉丝数等",
         "operationId": "Douyin_UserInfo",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/idlDouyinUserResponse"
+              "$ref": "#/definitions/idlDouyinUserInfoResponse"
             }
           },
           "default": {
@@ -519,7 +545,7 @@
         "parameters": [
           {
             "name": "userId",
-            "description": "用户id",
+            "description": "用户 id",
             "in": "query",
             "required": false,
             "type": "string",
@@ -540,6 +566,8 @@
     },
     "/douyin/user/login": {
       "post": {
+        "summary": "用户登录",
+        "description": "通过用户名和密码进行登录，登录成功后，返回用户 id 和权限 token。",
         "operationId": "Douyin_UserLogin",
         "responses": {
           "200": {
@@ -572,6 +600,8 @@
     },
     "/douyin/user/register": {
       "post": {
+        "summary": "用户注册",
+        "description": "新用户注册时，提供用户名、密码、昵称即可，用户名需要保证唯一。创建成功后，返回用户 id 和权限 token。",
         "operationId": "Douyin_UserRegister",
         "responses": {
           "200": {
@@ -984,16 +1014,34 @@
         }
       }
     },
+    "idlDouyinUserInfoResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态码，0-成功，其他值-失败"
+        },
+        "statusMsg": {
+          "type": "string",
+          "title": "返回状态描述"
+        },
+        "user": {
+          "$ref": "#/definitions/idlUser",
+          "title": "用户信息"
+        }
+      }
+    },
     "idlDouyinUserLoginRequest": {
       "type": "object",
       "properties": {
         "username": {
           "type": "string",
-          "title": "Login Username"
+          "title": "用户名"
         },
         "password": {
           "type": "string",
-          "title": "login password"
+          "title": "密码"
         }
       }
     },
@@ -1012,7 +1060,7 @@
         "userId": {
           "type": "string",
           "format": "int64",
-          "title": "用户id"
+          "title": "用户 id"
         },
         "token": {
           "type": "string",
@@ -1048,29 +1096,11 @@
         "userId": {
           "type": "string",
           "format": "int64",
-          "title": "用户id"
+          "title": "用户 id"
         },
         "token": {
           "type": "string",
-          "title": "用户鉴权token"
-        }
-      }
-    },
-    "idlDouyinUserResponse": {
-      "type": "object",
-      "properties": {
-        "statusCode": {
-          "type": "integer",
-          "format": "int32",
-          "title": "状态码，0-成功，其他值-失败"
-        },
-        "statusMsg": {
-          "type": "string",
-          "title": "返回状态描述"
-        },
-        "user": {
-          "$ref": "#/definitions/idlUser",
-          "title": "用户信息"
+          "title": "用户鉴权 token"
         }
       }
     },
@@ -1097,17 +1127,17 @@
         "id": {
           "type": "string",
           "format": "int64",
-          "title": "消息id"
+          "title": "消息 id"
         },
         "toUserId": {
           "type": "string",
           "format": "int64",
-          "title": "该消息接收者的id"
+          "title": "该消息接收者的 id"
         },
         "fromUserId": {
           "type": "string",
           "format": "int64",
-          "title": "该消息发送者的id"
+          "title": "该消息发送者的 id"
         },
         "content": {
           "type": "string",
